@@ -134,7 +134,7 @@ class ControllerExtensionPaymentFastpay extends Controller {
 					$result = json_decode($result);
 					$messages = $result->messages;
 					$code = $result->code; #if $code is not 200 then something is wrong with your request.
-					$data = $result->data;
+					$data_fastpay = $result->data;
 					
 
 				} else {
@@ -170,7 +170,7 @@ class ControllerExtensionPaymentFastpay extends Controller {
 			
 			$data['button_continue'] = $this->language->get('button_continue');
 						
-		if ($order_info && $data['status']) {
+		if ($order_info && $data_fastpay->status) {
 			$this->language->load('extension/payment/Fastpay');
 	
 			$data['title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_name'));
@@ -192,25 +192,26 @@ class ControllerExtensionPaymentFastpay extends Controller {
 			$data['text_failure'] = $this->language->get('text_failure');
 			$data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->link('checkout/cart'));
 	
+	          $this->load->model('checkout/order');
+			  $this->model_checkout_order->addOrderHistory($data_fastpay->order_id, $this->config->get('config_order_status_id'));
+			  
 	
-	
-			if (isset($data['status']) && $data['status'] == 'success') {
+			if (isset($data_fastpay->status) && strtoupper($data_fastpay->status) == 'SUCCESS') {
 				
-				$this->load->model('checkout/order');
-				$this->model_checkout_order->addOrderHistory($_POST['tran_id'], $this->config->get('config_order_status_id'));
 				
-				$message = '';
+				
+				   $message = '';
 	
 				
-					$message .= 'Payment Status = ' . $data['status'] . "\n";
+					$message .= 'Payment Status = ' . $data_fastpay->status . "\n";
 				    
-					$message .= 'Fastpay txnid = ' . $data['transaction_id'] . "\n";
+					$message .= 'Fastpay txnid = ' . $data_fastpay->transaction_id . "\n";
 				   
-					$message .= 'Your Oder id = ' . $data['order_id'] . "\n";
+					$message .= 'Your Oder id = ' . $data_fastpay->order_id . "\n";
 					
-					$message .= 'Payment Date = ' . $data['received_at'] . "\n";  
+					$message .= 'Payment Date = ' . $data_fastpay->received_at . "\n";  
 				   
-					$message .= 'Customer Account No = ' .$data['customer_account_no'] . "\n"; 
+					$message .= 'Customer Account No = ' .$data_fastpay->customer_account_no . "\n"; 
 				   
                 $this->model_checkout_order->addOrderHistory($order_id, $this->config->get('payment_Fastpay_order_status_id'), $message, false);
 	               $error='';
