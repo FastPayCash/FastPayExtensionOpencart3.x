@@ -19,17 +19,24 @@ Step 3: Find Fastpay or find the logo of fastpay in the list of extensions
 Step 4: Click "Install" and then "Edit" the payment module settings
 
    Add * Merchant ID and  password : Provided By FastPay
+   
+   You can test with the following merchent credentials:
+
+   Merchant ID: +9641684405075
+
+   Password: Password1@
+   
 
 Do a test transaction
 
 Thank You!
 
+*** For the live Merchant ID please contact with integration@fast-pay.cash
 
 For any issue, feel free to contact any time.
 
 - Author : FastPay
-- Developed By : Leton Miah
-- Email : letoncse7@gmail.com
+- Developed By : FastPay
 - Team-Email: integration@fast-pay.cash
 - More info: https://secure.fast-pay.cash/docs
 
